@@ -1,7 +1,11 @@
 package com.trdz.task12as.model
 
+import android.os.Build
+import android.util.Log
 import com.trdz.task12as.base_utility.IN_BASIS
 import com.trdz.task12as.base_utility.TYPE_TITLE
+import io.reactivex.rxjava3.core.Single
+import kotlin.math.log
 
 class RepositoryExecutor: Repository {
 
@@ -15,9 +19,11 @@ class RepositoryExecutor: Repository {
 		}
 	}
 
-	override fun getInitUsers() : List<DataUser> {
+	override fun getInitUsers() : Single<List<DataUser>> {
 		dataUpdate()
-		return currentData
+		return Single.create{
+			it.onSuccess(currentData)
+		}
 	}
 
 	override fun getUsers() : List<DataUser> {
@@ -30,6 +36,34 @@ class RepositoryExecutor: Repository {
 
 	override fun removeAt(position: Int) {
 		currentData.removeAt(position)
+	}
+
+	override fun removeGroup(group: Int): Int {
+		var count = 1
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			currentData.forEach { tek ->
+				if (tek.group == group+1) {
+					count++
+				}
+			}
+			currentData.removeIf{ element ->
+				element.group == group+1}
+			Log.d("@@@", currentData.toString())
+		}
+		else {
+			val subData = mutableListOf<DataUser>()
+			currentData.forEach { tek ->
+				if (tek.group == group+1) {
+					count++
+				}
+				else {
+					subData.add(tek)
+				}
+			}
+			currentData = subData
+		}
+
+		return count
 	}
 
 	override fun changeStateAt(data: DataUser, position: Int, state: Int): Int {
@@ -55,20 +89,5 @@ class RepositoryExecutor: Repository {
 	private fun dataUpdate() {
 		currentData = dataSource.load().toMutableList()
 	}
-
-//	override fun connection(serverListener: ServerResponse, prefix: String, date: String?) {
-//		Log.d("@@@", "Rep - start connection $prefix on date: $date")
-//		lateinit var externalSource: ExternalSource
-//		when (prefix) {
-//			//PREFIX_POD -> externalSource = ServerRetrofitPOD()
-//			//PREFIX_MRP -> externalSource = ServerRetrofitMRP()
-//			//PREFIX_EPC -> externalSource = ServerReceiverEPC()
-//		}
-//		Thread {
-//			val result = externalSource.load(date)
-//			if (result.code in 200..299 ) serverListener.success(prefix,result)
-//			else serverListener.fail(prefix, result.code)
-//		}.start()
-//	}
 
 }

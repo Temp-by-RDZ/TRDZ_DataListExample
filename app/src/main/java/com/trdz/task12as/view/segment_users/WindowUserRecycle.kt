@@ -13,6 +13,7 @@ import com.trdz.task12as.databinding.ElementUserCardBinding
 import com.trdz.task12as.databinding.ElementUserHiderBinding
 import com.trdz.task12as.databinding.ElementUserLiderBinding
 import com.trdz.task12as.model.DataUser
+import kotlin.math.min
 
 class WindowUserRecycle(private val clickExecutor: WindowUserOnClick): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -23,7 +24,6 @@ class WindowUserRecycle(private val clickExecutor: WindowUserOnClick): RecyclerV
 		this.list = newList
 		notifyItemRangeChanged(first, count)
 	}
-
 	fun subClose(position: Int) {
 		notifyItemChanged(position, true)
 	}
@@ -34,14 +34,18 @@ class WindowUserRecycle(private val clickExecutor: WindowUserOnClick): RecyclerV
 		notifyDataSetChanged()
 	}
 
-	fun setAddToList(newList: List<DataUser>, position: Int) {
+	fun addToList(newList: List<DataUser>, position: Int) {
 		this.list = newList
 		notifyItemChanged(position)
 	}
 
-	fun setRemoveToList(newList: List<DataUser>, position: Int) {
+	fun removeFromList(newList: List<DataUser>, position: Int) {
 		this.list = newList
 		notifyItemRemoved(position)
+	}
+	fun removeFromListMany(newList: List<DataUser>, first: Int, count: Int) {
+		this.list = newList
+		notifyItemRangeRemoved(first, count)
 	}
 
 	override fun getItemViewType(position: Int): Int {
@@ -108,6 +112,7 @@ class WindowUserRecycle(private val clickExecutor: WindowUserOnClick): RecyclerV
 		override fun myBind(data: DataUser) {
 			(ElementUserCardBinding.bind(itemView)).apply {
 				root.setOnClickListener {clickExecutor.onItemClick(data, layoutPosition)}
+				root.setOnLongClickListener { clickExecutor.onItemClickLong(data, layoutPosition); true }
 				elemntImage.setOnClickListener {
 					if (opened > -1) subClose(opened)
 					if (opened != layoutPosition) {

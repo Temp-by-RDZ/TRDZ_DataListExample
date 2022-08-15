@@ -3,7 +3,6 @@ package com.trdz.task12as.view.segment_users
 import android.os.Build
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.trdz.task12as.R
 import com.trdz.task12as.databinding.FragmentWindowUserListBinding
@@ -52,9 +51,12 @@ class WindowUserList: MvpAppCompatFragment(), WindowUserOnClick, MainView {
 
 	//endregion
 
+	private fun openDetails(data: DataUser) {
+		presenter.openDetails(data)
+	}
 	//region Adapter realization
 	override fun onItemClick(data: DataUser, position: Int) {
-		presenter.openDetails(data)
+		openDetails(data)
 	}
 
 	override fun onItemClickLong(data: DataUser, position: Int) {
@@ -63,12 +65,13 @@ class WindowUserList: MvpAppCompatFragment(), WindowUserOnClick, MainView {
 				.setTitle(getString(R.string.long_clik_dio_title))
 				.setMessage(" ${data.name}")
 				.setPositiveButton(getString(R.string.long_clik_dio_chose1)) { _, _ ->
-					presenter.dataRemoval(position)
+					presenter.dataRemoval(data,position)
 				}
 				.setNegativeButton(getString(R.string.long_clik_dio_chose2)) { _, _ ->
 					presenter.dataAdditional()
 				}
 				.setNeutralButton(getString(R.string.long_clik_dio_chose3)) { dialog, _ ->
+					openDetails(data)
 					dialog.dismiss()
 				}
 				.create()
@@ -80,23 +83,34 @@ class WindowUserList: MvpAppCompatFragment(), WindowUserOnClick, MainView {
 		presenter.visualChange(data, position)
 	}
 
+
 	//endregion
 
 	//region Presenter command realization
+	override fun errorCatch() {
+		//("Not yet implemented")
+	}
 	override fun refresh(list: List<DataUser>) {
 		adapter.setList(list)
 	}
 
 	override fun changeMore(list: List<DataUser>) {
-		adapter.setAddToList(list, list.size)
+		adapter.addToList(list, list.size)
 	}
 
 	override fun changeLess(list:List<DataUser>, position:Int) {
-		adapter.setRemoveToList(list, position)
+		adapter.removeFromList(list, position)
 	}
-
+	override fun changeLessMore(list: List<DataUser>, position: Int, count: Int) {
+		adapter.removeFromListMany(list, position, count)
+	}
 	override fun changeState(list: List<DataUser>, position: Int, count: Int) {
 		adapter.stackControl(list, position, count)
+	}
+
+	override fun loadingState(state: Boolean) {
+		binding.loadingLayout.visibility = if (state)  View.VISIBLE
+		else View.GONE
 	}
 	//endregion
 
