@@ -1,9 +1,9 @@
 package com.trdz.task12as.presenter
 
+import android.util.Log
 import com.github.terrakok.cicerone.Router
 import com.trdz.task12as.MyApp
-import com.trdz.task12as.base_utility.IN_BASIS
-import com.trdz.task12as.base_utility.ScreenUsers
+import com.trdz.task12as.base_utility.*
 import com.trdz.task12as.model.DataUser
 import com.trdz.task12as.model.Repository
 import com.trdz.task12as.model.RepositoryExecutor
@@ -18,22 +18,25 @@ class MainPresenter(
 	private val repository: Repository = RepositoryExecutor(),
 	private val router: Router = MyApp.instance.router,
 ): MvpPresenter<MainView>() {
-
 	override fun onFirstViewAttach() {
 		super.onFirstViewAttach()
 		with(viewState) {
-			repository.setInternalSource(IN_BASIS)
+			repository.setInternalSource(IN_SERVER)
 			loadingState(true)
 			repository.getInitUsers()
-				.delay(1, TimeUnit.SECONDS)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(
-				{
-					refresh(it)
-					loadingState(false)
-				},
-				{ errorCatch() })
+					{
+						val result = it.dataUser!!
+						Log.d("@@@@@@@@@@@@@@@@@@@@", result.toString())
+						repository.dataUpdate(result.toMutableList())
+						refresh(result)
+					},
+					{
+
+					})
+			loadingState(false)
 		}
 
 	}
