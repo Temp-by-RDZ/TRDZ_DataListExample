@@ -30,11 +30,11 @@
     <dimen name="image_final_width">32dp</dimen>
     <dimen name="spacing_normal">16dp</dimen>
     <dimen name="knowlage_title_t_size">35sp</dimen>
-    <dimen name="knowlage_s_title_t_size">15sp</dimen>
-    <dimen name="knowlage_s_title_margin">20dp</dimen>
+    <dimen name="lider_line_subtext_size">15sp</dimen>
+    <dimen name="lider_line_subtext_margin">20dp</dimen>
     <dimen name="knowlage_image_width">100dp</dimen>
-    <dimen name="knowlage_image_height">100dp</dimen>
-    <dimen name="knowlage_icon_margin">15dp</dimen>
+    <dimen name="card_height">80dp</dimen>
+    <dimen name="card_icon_button_margin">20dp</dimen>
     <dimen name="bottom_difference">3dp</dimen>
     <dimen name="help_margin_left">25dp</dimen>
     <dimen name="help_margin_up">70dp</dimen>
@@ -55,5 +55,11 @@
     <dimen name="list_padding">80dp</dimen>
     <dimen name="scren_effect">66dp</dimen>
     <dimen name="string_margin">10dp</dimen>
+    <dimen name="lider_line_space_after_icon">7dp</dimen>
+    <dimen name="lider_line_text_size">25sp</dimen>
+    <dimen name="lider_line_right_space">70dp</dimen>
+    <dimen name="lider_line_height">80dp</dimen>
+    <dimen name="lider_line_corner_size">20dp</dimen>
+    <dimen name="lider_line_corner_width">3dp</dimen>
 
 </resources>

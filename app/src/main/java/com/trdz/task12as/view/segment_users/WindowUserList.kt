@@ -4,7 +4,6 @@ import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.trdz.task12as.R
 import com.trdz.task12as.databinding.FragmentWindowUserListBinding
 import com.trdz.task12as.model.DataUser
@@ -22,7 +21,7 @@ class WindowUserList: MvpAppCompatFragment(), WindowUserOnClick, MainView {
 	private val binding get() = _binding!!
 	private var _executors: Leader? = null
 	private val executors get() = _executors!!
-	private val adapter = WindowUserRecycle(this)
+	private val adapter = WindowUserListRecycle(this)
 	private val presenter by moxyPresenter { MainPresenter(RepositoryExecutor()) }
 
 	//endregion

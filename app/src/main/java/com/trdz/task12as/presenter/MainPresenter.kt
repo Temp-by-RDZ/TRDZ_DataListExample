@@ -5,7 +5,6 @@ import com.github.terrakok.cicerone.Router
 import com.trdz.task12as.MyApp
 import com.trdz.task12as.base_utility.*
 import com.trdz.task12as.model.DataUser
-import com.trdz.task12as.model.Repository
 import com.trdz.task12as.model.RepositoryExecutor
 import com.trdz.task12as.view.segment_users.MainView
 import com.trdz.task12as.view.segment_users.WindowUser
@@ -15,7 +14,7 @@ import moxy.MvpPresenter
 import java.util.concurrent.TimeUnit
 
 class MainPresenter(
-	private val repository: Repository = RepositoryExecutor(),
+	private val repository: RepositoryExecutor = RepositoryExecutor(),
 	private val router: Router = MyApp.instance.router,
 ): MvpPresenter<MainView>() {
 	override fun onFirstViewAttach() {
@@ -29,7 +28,6 @@ class MainPresenter(
 				.subscribe(
 					{
 						val result = it.dataUser!!
-						Log.d("@@@@@@@@@@@@@@@@@@@@", result.toString())
 						repository.dataUpdate(result.toMutableList())
 						refresh(result)
 					},

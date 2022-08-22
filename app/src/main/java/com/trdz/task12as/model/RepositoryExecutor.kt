@@ -6,21 +6,20 @@ import com.trdz.task12as.base_utility.IN_BASIS
 import com.trdz.task12as.base_utility.IN_SERVER
 import com.trdz.task12as.base_utility.IN_SQL
 import com.trdz.task12as.base_utility.TYPE_TITLE
-import com.trdz.task12as.model.server_git_user.ServerRetrofit
+import com.trdz.task12as.model.data_source_basis.DataSourceBasis
+import com.trdz.task12as.model.data_source_server.ServerRetrofit
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlin.math.log
 
-class RepositoryExecutor: Repository {
+class RepositoryExecutor {
 
-	private lateinit var dataSource: DataSource
+	private lateinit var dataSource: ADataSource
 	private lateinit var currentData: MutableList<DataUser>
 
-	override fun dataUpdate(data: MutableList<DataUser>) {
+	fun dataUpdate(data: MutableList<DataUser>) {
 		currentData = data
 	}
 
-	override fun setInternalSource(index: Int) {
+	fun setInternalSource(index: Int) {
 		when (index) {
 			IN_BASIS -> dataSource = DataSourceBasis()
 			IN_SQL ->  dataSource = DataSourceBasis()//DataSourceSQL()
@@ -28,24 +27,27 @@ class RepositoryExecutor: Repository {
 		}
 	}
 
-	override fun getInitUsers() : Single<ServersResult> {
-		return dataSource.load()
+	fun getUserRepository(name: String) : Single<ServersResultRepository> {
+		return dataSource.loadRepository(name)
 	}
 
-	override fun getUsers() : List<DataUser> {
-		Log.d("@@@", "БАБАБАБАББАБААБАБАБАБАБААББААББААББАБА")
+	fun getInitUsers() : Single<ServersResultUser> {
+		return dataSource.loadUser()
+	}
+
+	fun getUsers() : List<DataUser> {
 		return currentData
 	}
 
-	override fun addAt() {
+	fun addAt() {
 		currentData.add(DataUser("Новый Лидер", "Новая группа", 0,"",TYPE_TITLE,getNewGroup()))
 	}
 
-	override fun removeAt(position: Int) {
+	fun removeAt(position: Int) {
 		currentData.removeAt(position)
 	}
 
-	override fun removeGroup(group: Int): Int {
+	fun removeGroup(group: Int): Int {
 		var count = 1
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 			currentData.forEach { tek ->
@@ -73,7 +75,7 @@ class RepositoryExecutor: Repository {
 		return count
 	}
 
-	override fun changeStateAt(data: DataUser, position: Int, state: Int): Int {
+	fun changeStateAt(data: DataUser, position: Int, state: Int): Int {
 		currentData[position].state = state
 		return setState(state*2, data.group + 1)
 	}

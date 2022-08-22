@@ -1,63 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lider_card"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/background_100"
+    app:strokeColor="@color/black"
+    app:cardCornerRadius="@dimen/lider_line_corner_size"
+    app:strokeWidth="@dimen/lider_line_corner_width">
+
+    <View
+        android:id="@+id/click_zone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_height"
+        android:layout_marginEnd="@dimen/lider_line_right_space"
+        android:clickable="true"
+        android:focusable="true" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/lider_line_right_space"
         android:orientation="horizontal">
 
-        <TableLayout
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/icon"
+            android:layout_width="@dimen/lider_line_height"
+            android:layout_height="@dimen/lider_line_height"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/bg_mars" />
+
+        <LinearLayout
+            android:layout_marginStart="@dimen/lider_line_space_after_icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="2dp" >
-
-
-            <View
-                android:id="@+id/click_zone"
-                android:layout_width="80dp"
-                android:layout_height="@dimen/knowlage_image_height"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:clickable="true"
-                android:focusable="true" />
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/knowlage_title_t_size"
-                android:textStyle="bold"
-                app:layout_constraintVertical_chainStyle="packed"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="@dimen/lider_line_text_size"
+                android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/descriptionTextView"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/knowlage_s_title_t_size"
-                android:layout_marginStart="@dimen/knowlage_s_title_margin"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title" />
+                android:layout_marginStart="@dimen/lider_line_subtext_margin"
+                android:textSize="@dimen/lider_line_subtext_size"
+                android:textColor="@color/black" />
+        </LinearLayout>
 
-        </TableLayout>
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/block_image"
-            android:rotation="-90"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/knowlage_icon_margin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:srcCompat="@drawable/ic_baseline_block_hide" />
     </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/block_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|center"
+        android:layout_margin="@dimen/card_icon_button_margin"
+        android:rotation="-90"
+        app:srcCompat="@drawable/ic_baseline_block_hide" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
@@ -65,4 +69,5 @@
         android:layout_height="wrap_content"
         app:barrierDirection="end"
         app:constraint_referenced_ids="block_image" />
-</androidx.cardview.widget.CardView>
+
+</com.google.android.material.card.MaterialCardView>

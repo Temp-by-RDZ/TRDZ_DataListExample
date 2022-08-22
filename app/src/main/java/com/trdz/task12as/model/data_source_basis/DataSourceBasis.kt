@@ -1,10 +1,14 @@
-package com.trdz.task12as.model
+package com.trdz.task12as.model.data_source_basis
 
 import com.trdz.task12as.base_utility.TYPE_CARD
 import com.trdz.task12as.base_utility.TYPE_TITLE
+import com.trdz.task12as.model.ADataSource
+import com.trdz.task12as.model.DataUser
+import com.trdz.task12as.model.ServersResultRepository
+import com.trdz.task12as.model.ServersResultUser
 import io.reactivex.rxjava3.core.Single
 
-class DataSourceBasis: DataSource {
+class DataSourceBasis: ADataSource {
 
 	private val basisData = listOf(
 		DataUser(name = "Лидер 1", subName = "Первая группа", id = 0, type = TYPE_TITLE, iconUrl =  "",group = 1),
@@ -18,8 +22,13 @@ class DataSourceBasis: DataSource {
 		DataUser(name ="Aleluya", subName ="Участник 1", id = 0, type =  TYPE_CARD, iconUrl = "",group = 6),
 	)
 
-	override fun load(): Single<ServersResult> = Single.create{
-		it.onSuccess(ServersResult(0,basisData))
+	override fun loadUser(): Single<ServersResultUser> = Single.create{
+		it.onSuccess(ServersResultUser(0,basisData))
 	}
+
+	override fun loadRepository(name: String): Single<ServersResultRepository> = Single.create{
+		it.onSuccess(ServersResultRepository(0))
+	}
+
 
 }
