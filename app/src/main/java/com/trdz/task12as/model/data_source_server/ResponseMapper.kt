@@ -9,23 +9,28 @@ import com.trdz.task12as.model.data_source_server.data_users.dto.GitUsersDtoItem
 
 object ResponseMapper {
 
-	fun mapToEntity(dto: GitUsersDtoItem,index:Int): DataUser {
-		return DataUser(
-			id = dto.id,
-			name = dto.login,
-			subName = dto.type,
-			iconUrl = dto.avatarUrl,
-			type = TYPE_TITLE,
-			group = index*2,
-			state = 1
-		)
+	fun mapToEntity(dto: GitUsersDtoItem, index: Int): DataUser {
+		return with(dto) {
+			DataUser(
+				id = id,
+				name = login,
+				subName = type,
+				iconUrl = avatarUrl,
+				type = TYPE_TITLE,
+				group = index * 2,
+				state = 1
+			)
+		}
 	}
+
 	fun mapToEntity(dto: RepositoryDTOItem): DataRepository {
-		return DataRepository(
-			id = dto.id,
-			name = dto.name,
-			type = TYPE_CARD,
-			publicity = dto.private
-		)
+		return with(dto) {
+			DataRepository(
+				id = id,
+				name = name,
+				type = TYPE_CARD,
+				publicity = private
+			)
+		}
 	}
 }

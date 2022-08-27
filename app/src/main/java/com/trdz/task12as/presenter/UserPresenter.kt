@@ -25,6 +25,25 @@ class UserPresenter(
 	fun getList(name: String) {
 		this.name = name
 		with(viewState) {
+			repository.setInternalSource(IN_STORAGE)
+			loadingState(true)
+			repository.getUserRepository(name)
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(
+					{
+						Log.e("@@@",it.dataRep!!.toString())
+						refresh(it.dataRep!!)
+					},
+					{
+						startLoad()
+					})
+			loadingState(false)
+		}
+	}
+
+	private fun startLoad() {
+		with(viewState) {
 			repository.setInternalSource(IN_SERVER)
 			loadingState(true)
 			repository.getUserRepository(name)
@@ -32,15 +51,14 @@ class UserPresenter(
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(
 					{
-						Log.e("@@@@@@@@@@@@@@@@@@@@",it.dataRep!!.toString())
+						Log.e("@@@",it.dataRep!!.toString())
 						refresh(it.dataRep!!)
 					},
 					{
-						Log.e("@@@@@@@@@@@@@@@@@@@@",it.message!!)
+						Log.e("@@@",it.message!!)
 					})
 			loadingState(false)
 		}
-
 	}
 
 

@@ -4,7 +4,7 @@ import com.trdz.task12as.base_utility.TYPE_TITLE
 
 data class DataUser(
 	val name: String = "Name",
-	val subName: String? = "Subname",
+	val subName: String = "Subname",
 	val id: Int,
 	val iconUrl: String,
 	val type:Int  = TYPE_TITLE,

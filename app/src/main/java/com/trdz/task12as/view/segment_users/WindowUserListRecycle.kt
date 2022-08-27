@@ -47,6 +47,7 @@ class WindowUserListRecycle(private val clickExecutor: WindowUserOnClick): Recyc
 		this.list = newList
 		notifyItemRemoved(position)
 	}
+
 	fun removeFromListMany(newList: List<DataUser>, first: Int, count: Int) {
 		this.list = newList
 		notifyItemRangeRemoved(first, count)

@@ -1,17 +1,14 @@
 package com.trdz.task12as.presenter
 
-import android.util.Log
 import com.github.terrakok.cicerone.Router
 import com.trdz.task12as.MyApp
 import com.trdz.task12as.base_utility.*
 import com.trdz.task12as.model.DataUser
 import com.trdz.task12as.model.RepositoryExecutor
 import com.trdz.task12as.view.segment_users.MainView
-import com.trdz.task12as.view.segment_users.WindowUser
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
-import java.util.concurrent.TimeUnit
 
 class MainPresenter(
 	private val repository: RepositoryExecutor = RepositoryExecutor(),
@@ -20,7 +17,7 @@ class MainPresenter(
 	override fun onFirstViewAttach() {
 		super.onFirstViewAttach()
 		with(viewState) {
-			repository.setInternalSource(IN_SERVER)
+			repository.setInternalSource(IN_STORAGE)
 			loadingState(true)
 			repository.getInitUsers()
 				.subscribeOn(Schedulers.io())
@@ -32,11 +29,31 @@ class MainPresenter(
 						refresh(result)
 					},
 					{
-
+						startLoad()
 					})
 			loadingState(false)
 		}
 
+	}
+	private fun startLoad() {
+		with(viewState) {
+			repository.setInternalSource(IN_SERVER)
+			loadingState(true)
+			repository.getInitUsers()
+				.subscribeOn(Schedulers.io())
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribe(
+					{
+						val result = it.dataUser!!
+						repository.dataUpdate(result.toMutableList())
+						repository.update()
+						refresh(result)
+					},
+					{
+						viewState.errorCatch()
+					})
+			loadingState(false)
+		}
 	}
 
 	fun openDetails(data: DataUser) {

@@ -1,0 +1,8 @@
+package com.trdz.task12as.model
+
+import io.reactivex.rxjava3.core.Single
+
+interface InternalData {
+	fun saveUsers(users: List<DataUser>)
+	fun saveRepos(repos: List<DataRepository>, owner: DataUser)
+}

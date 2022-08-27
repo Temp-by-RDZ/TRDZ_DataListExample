@@ -22,7 +22,7 @@ class DataSourceBasis: ADataSource {
 		DataUser(name ="Aleluya", subName ="Участник 1", id = 0, type =  TYPE_CARD, iconUrl = "",group = 6),
 	)
 
-	override fun loadUser(): Single<ServersResultUser> = Single.create{
+	override fun loadUsers(): Single<ServersResultUser> = Single.create{
 		it.onSuccess(ServersResultUser(0,basisData))
 	}
 

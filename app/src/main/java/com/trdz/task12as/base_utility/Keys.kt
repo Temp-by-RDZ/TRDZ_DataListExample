@@ -14,6 +14,6 @@ const val TYPE_TITLE 	= 1
 const val TYPE_CARD 	= 2
 //HARD IDS
 const val IN_BASIS		= 0
-const val IN_SQL		= 1
+const val IN_STORAGE		= 1
 const val IN_SERVER		= 2
 

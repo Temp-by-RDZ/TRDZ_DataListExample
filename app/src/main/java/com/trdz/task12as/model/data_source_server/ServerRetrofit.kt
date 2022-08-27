@@ -10,7 +10,7 @@ import java.lang.Exception
 
 class ServerRetrofit: ADataSource {
 
-	override fun loadUser(): Single<ServersResultUser> = Single.create{
+	override fun loadUsers(): Single<ServersResultUser> = Single.create{
 		val retrofit = MyApp.getRetrofit()
 		try {
 			val response = retrofit.getResponse().execute()
