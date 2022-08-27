@@ -4,6 +4,7 @@ import com.trdz.task12as.MyApp
 import com.trdz.task12as.model.*
 import com.trdz.task12as.model.data_source_server.data_user_rep.dto.RepositoryDTO
 import com.trdz.task12as.model.data_source_server.data_users.dto.GitUsersDto
+import com.trdz.task12as.model.data_source_server.data_users.dto.GitUsersDtoItem
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Response
 import java.lang.Exception
@@ -30,6 +31,24 @@ class ServerRetrofit: ADataSource {
 			ServersResultUser(response.code(), dataUser = userList)
 		}
 		else ServersResultUser(response.code())
+	}
+
+	override fun loadDetails(name: String): Single<ServersResultRepository> = Single.create{
+		val retrofit = MyApp.getRetrofit()
+		try {
+			val response = retrofit.getResponseSolo(name).execute()
+			it.onSuccess(responseFormationDetails(response))
+		}
+		catch (error : Exception) {
+			it.onError(responseFail(error))
+		}
+	}
+
+	private fun responseFormationDetails(response: Response<GitUsersDtoItem>) : ServersResultRepository {
+		return if (response.isSuccessful) response.body()!!.run {
+			ServersResultRepository(response.code(), dataUserInfo = ResponseMapper.mapToEntity(this))
+		}
+		else ServersResultRepository(response.code())
 	}
 
 	override fun loadRepository(name: String): Single<ServersResultRepository> = Single.create{

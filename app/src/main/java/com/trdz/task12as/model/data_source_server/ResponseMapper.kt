@@ -4,6 +4,7 @@ import com.trdz.task12as.base_utility.TYPE_CARD
 import com.trdz.task12as.base_utility.TYPE_TITLE
 import com.trdz.task12as.model.DataRepository
 import com.trdz.task12as.model.DataUser
+import com.trdz.task12as.model.DataUserInfo
 import com.trdz.task12as.model.data_source_server.data_user_rep.dto.RepositoryDTOItem
 import com.trdz.task12as.model.data_source_server.data_users.dto.GitUsersDtoItem
 
@@ -23,6 +24,16 @@ object ResponseMapper {
 		}
 	}
 
+	fun mapToEntity(dto: GitUsersDtoItem): DataUserInfo {
+		return with(dto) {
+			DataUserInfo(
+				id = id,
+				name = login,
+				subName = type,
+				iconUrl = avatarUrl,
+			)
+		}
+	}
 	fun mapToEntity(dto: RepositoryDTOItem): DataRepository {
 		return with(dto) {
 			DataRepository(

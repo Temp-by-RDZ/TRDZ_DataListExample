@@ -50,7 +50,7 @@ class WindowUser: MvpAppCompatFragment(), UserView {
 			}
 		}
 		binding.recyclerView.adapter = adapter
-		presenter.getList(name)
+		presenter.getDetails(name)
 	}
 
 	//region Presenter command realization

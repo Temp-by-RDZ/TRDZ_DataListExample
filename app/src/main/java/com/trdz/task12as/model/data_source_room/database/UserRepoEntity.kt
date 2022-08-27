@@ -4,8 +4,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.ColumnInfo
 
-
-
 @Entity(tableName = "repos")
 data class UserRepoEntity(
 	@PrimaryKey

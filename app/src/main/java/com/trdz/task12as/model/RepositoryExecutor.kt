@@ -30,7 +30,17 @@ class RepositoryExecutor {
 	}
 
 	fun update() {
-		internalStorage.saveUsers(currentData)
+		Log.d("@@@", "Rep - User Saving...")
+		internalStorage.saveUsers(currentData).subscribe({
+			Log.d("@@@", "Rep - ...Done")},{
+			Log.d("@@@", "Rep - ...Failed $it")})
+	}
+
+	fun updateRepo(repos: List<DataRepository>,owner:Int) {
+		Log.d("@@@", "Rep - Repo Saving...")
+		internalStorage.saveRepos(repos,owner).subscribe({
+			Log.d("@@@", "Rep - ...Done")},{
+			Log.d("@@@", "Rep - ...Failed $it")})
 	}
 
 	fun getUserRepository(name: String) : Single<ServersResultRepository> {
@@ -39,6 +49,10 @@ class RepositoryExecutor {
 
 	fun getInitUsers() : Single<ServersResultUser> {
 		return dataSource.loadUsers()
+	}
+
+	fun getUserInfo(name: String) : Single<ServersResultRepository> {
+		return dataSource.loadDetails(name)
 	}
 
 	fun getUsers() : List<DataUser> {

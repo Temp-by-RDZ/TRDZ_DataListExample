@@ -4,6 +4,7 @@ import com.trdz.task12as.base_utility.TYPE_CARD
 import com.trdz.task12as.base_utility.TYPE_TITLE
 import com.trdz.task12as.model.DataRepository
 import com.trdz.task12as.model.DataUser
+import com.trdz.task12as.model.DataUserInfo
 import com.trdz.task12as.model.data_source_room.database.UserEntity
 import com.trdz.task12as.model.data_source_room.database.UserRepoEntity
 import com.trdz.task12as.model.data_source_server.data_user_rep.dto.RepositoryDTOItem
@@ -47,6 +48,17 @@ object ResponseMapper {
 		}
 	}
 
+	fun fromStorageInfo(entity: UserEntity): DataUserInfo {
+		return with(entity) {
+			DataUserInfo(
+				id = id.toInt(),
+				name = name,
+				subName = subName,
+				iconUrl = iconUrl,
+			)
+		}
+	}
+
 	fun fromStorage(entity: UserRepoEntity): DataRepository {
 		return with(entity) {DataRepository(
 			id = id.toInt(),
@@ -55,4 +67,5 @@ object ResponseMapper {
 			publicity = publicity
 		)}
 	}
+
 }

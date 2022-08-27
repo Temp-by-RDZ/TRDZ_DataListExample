@@ -1,5 +1,6 @@
 package com.trdz.task12as.presenter
 
+import android.util.Log
 import com.github.terrakok.cicerone.Router
 import com.trdz.task12as.MyApp
 import com.trdz.task12as.base_utility.*
@@ -16,6 +17,7 @@ class MainPresenter(
 ): MvpPresenter<MainView>() {
 	override fun onFirstViewAttach() {
 		super.onFirstViewAttach()
+		Log.d("@@@", "Prs - Start users loading")
 		with(viewState) {
 			repository.setInternalSource(IN_STORAGE)
 			loadingState(true)
@@ -24,35 +26,39 @@ class MainPresenter(
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(
 					{
+						Log.d("@@@", "Prs - Internal load complete")
 						val result = it.dataUser!!
 						repository.dataUpdate(result.toMutableList())
 						refresh(result)
+						loadingState(false)
 					},
 					{
+						Log.w("@@@", "Prs - Failed internal load start external loading $it")
 						startLoad()
 					})
-			loadingState(false)
 		}
 
 	}
 	private fun startLoad() {
 		with(viewState) {
 			repository.setInternalSource(IN_SERVER)
-			loadingState(true)
 			repository.getInitUsers()
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(
 					{
+						Log.d("@@@", "Prs - External load complete")
 						val result = it.dataUser!!
 						repository.dataUpdate(result.toMutableList())
 						repository.update()
 						refresh(result)
+						loadingState(false)
 					},
 					{
+						Log.e("@@@", "Prs - Loading failed $it")
 						viewState.errorCatch()
+						loadingState(false)
 					})
-			loadingState(false)
 		}
 	}
 

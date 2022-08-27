@@ -5,7 +5,7 @@ import androidx.room.Relation
 
 data class UserRepoMerge (
 	@Embedded
-	val userDBObject: UserEntity,
+	val user: UserEntity,
 	@Relation(
 		parentColumn = UserEntity.PRIMARY_KEY,
 		entityColumn = UserRepoEntity.FOREIGN_USER_KEY

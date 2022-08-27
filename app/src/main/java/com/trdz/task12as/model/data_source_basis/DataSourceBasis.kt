@@ -25,7 +25,9 @@ class DataSourceBasis: ADataSource {
 	override fun loadUsers(): Single<ServersResultUser> = Single.create{
 		it.onSuccess(ServersResultUser(0,basisData))
 	}
-
+	override fun loadDetails(name: String): Single<ServersResultRepository> = Single.create{
+		it.onSuccess(ServersResultRepository(0))
+	}
 	override fun loadRepository(name: String): Single<ServersResultRepository> = Single.create{
 		it.onSuccess(ServersResultRepository(0))
 	}
