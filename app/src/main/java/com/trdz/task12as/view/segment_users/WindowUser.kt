@@ -4,6 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import com.trdz.task12as.MyApp
 import com.trdz.task12as.base_utility.KEY_NAME
 import com.trdz.task12as.databinding.FragmentWindowUserBinding
 import com.trdz.task12as.model.DataRepository
@@ -20,7 +21,12 @@ class WindowUser: MvpAppCompatFragment(), UserView {
 	private var _binding: FragmentWindowUserBinding? = null
 	private val binding get() = _binding!!
 	private val adapter = WindowUserRecycle()
-	private val presenter by moxyPresenter { UserPresenter(RepositoryExecutor()) }
+	//private val presenter by moxyPresenter { UserPresenter(RepositoryExecutor()) }
+	private val presenter by moxyPresenter {
+		UserPresenter().apply {
+			MyApp.instance.appComponent.inject(this)
+		}
+	}
 	private lateinit var name:String
 	//endregion
 

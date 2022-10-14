@@ -11,10 +11,11 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 
 class UserPresenter(
-	private val repository: RepositoryExecutor = RepositoryExecutor(),
-	private val router: Router = MyApp.instance.router,
-	private var id: Int = 0
 ): MvpPresenter<UserView>() {
+
+	private val repository: RepositoryExecutor = RepositoryExecutor()
+	private val router: Router = MyApp.instance.router
+	private var id: Int = 0
 
 	override fun onFirstViewAttach() {
 		super.onFirstViewAttach()

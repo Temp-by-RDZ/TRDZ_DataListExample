@@ -11,10 +11,13 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 
-class MainPresenter(
-	private val repository: RepositoryExecutor = RepositoryExecutor(),
-	private val router: Router = MyApp.instance.router,
-): MvpPresenter<MainView>() {
+class MainPresenter(): MvpPresenter<MainView>() {
+
+
+	private val repository: RepositoryExecutor = RepositoryExecutor()
+	private val router: Router = MyApp.instance.router
+
+
 	override fun onFirstViewAttach() {
 		super.onFirstViewAttach()
 		Log.d("@@@", "Prs - Start users loading")

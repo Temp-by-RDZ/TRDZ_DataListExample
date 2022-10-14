@@ -6,6 +6,8 @@ import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import com.google.gson.GsonBuilder
 import com.trdz.task12as.base_utility.DOMAIN
+import com.trdz.task12as.base_utility.di.Component
+import com.trdz.task12as.base_utility.di.DaggerComponent
 import com.trdz.task12as.model.data_source_room.database.DataBase
 import com.trdz.task12as.model.data_source_room.database.UserDao
 import com.trdz.task12as.model.data_source_server.ServerRetrofitApi
@@ -17,7 +19,7 @@ class MyApp: Application() {
 
 	companion object {
 		private var db: DataBase? = null
-		lateinit var instance : MyApp
+		lateinit var instance: MyApp
 
 		private var retrofitGitUsers: ServerRetrofitApi? = null
 
@@ -42,7 +44,9 @@ class MyApp: Application() {
 
 	}
 
-	private val cicerone : Cicerone<Router> by lazy { Cicerone.create() }
+	private val cicerone: Cicerone<Router> by lazy { Cicerone.create() }
+	lateinit var appComponent: Component
+
 
 	val navigationHandler = cicerone.getNavigatorHolder()
 	val router = cicerone.router
@@ -53,6 +57,10 @@ class MyApp: Application() {
 		RxJavaPlugins.setErrorHandler {
 			//None
 		}
+		appComponent = DaggerComponent.builder()
+			//.appModule(AppModule(applicationContext))
+			.build()
+
 	}
 
 }
