@@ -9,12 +9,16 @@ import com.trdz.task12as.view.segment_users.UserView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
+import javax.inject.Inject
 
 class UserPresenter(
 ): MvpPresenter<UserView>() {
 
-	private val repository: RepositoryExecutor = RepositoryExecutor()
-	private val router: Router = MyApp.instance.router
+	@Inject
+	lateinit var repository: RepositoryExecutor
+
+	//private val repository: RepositoryExecutor = RepositoryExecutor()
+	//private val router: Router = MyApp.instance.router
 	private var id: Int = 0
 
 	override fun onFirstViewAttach() {
@@ -25,7 +29,7 @@ class UserPresenter(
 	fun getDetails(name: String) {
 		Log.d("@@@", "Prs - Start details loading")
 		with(viewState) {
-			repository.setInternalSource(IN_STORAGE)
+			repository.setSource(IN_STORAGE)
 			repository.getUserInfo(name)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
@@ -43,9 +47,10 @@ class UserPresenter(
 		}
 
 	}
+
 	private fun startUserLoad(name: String) {
 		with(viewState) {
-			repository.setInternalSource(IN_SERVER)
+			repository.setSource(IN_SERVER)
 			repository.getUserInfo(name)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
@@ -66,7 +71,7 @@ class UserPresenter(
 	private fun startRepoLoad(name: String) {
 		Log.d("@@@", "Prs - Start repos loading")
 		with(viewState) {
-			repository.setInternalSource(IN_SERVER)
+			repository.setSource(IN_SERVER)
 			repository.getUserRepository(name)
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
@@ -74,7 +79,7 @@ class UserPresenter(
 					{
 						Log.d("@@@", "Prs - External load complete")
 						val result = it.dataRep!!
-						repository.updateRepo(result,id)
+						repository.updateRepo(result, id)
 						refresh(result)
 						loadingState(false)
 					},

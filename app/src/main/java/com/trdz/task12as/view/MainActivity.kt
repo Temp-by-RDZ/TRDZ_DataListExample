@@ -3,12 +3,14 @@ package com.trdz.task12as.view
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.trdz.task12as.MyApp
 import com.trdz.task12as.R
 import com.trdz.task12as.base_utility.KEY_OPTIONS
 import com.trdz.task12as.base_utility.KEY_THEME
 import moxy.MvpAppCompatActivity
+import javax.inject.Inject
 
 class MainActivity: MvpAppCompatActivity(), Leader {
 
@@ -16,6 +18,8 @@ class MainActivity: MvpAppCompatActivity(), Leader {
 	private val navigation = Navigation(R.id.container_fragment_base)
 	private val executor = Executor()
 	private val navigator = AppNavigator(this,R.id.container_fragment_base)
+	@Inject lateinit var navigatorHolder: NavigatorHolder
+
 
 	//endregion
 
@@ -42,12 +46,12 @@ class MainActivity: MvpAppCompatActivity(), Leader {
 	//region Navigator
 	override fun onResumeFragments() {
 		super.onResumeFragments()
-		MyApp.instance.navigationHandler.setNavigator(navigator)
+		navigatorHolder.setNavigator(navigator)
 	}
 
 	override fun onPause() {
-		MyApp.instance.navigationHandler.removeNavigator()
 		super.onPause()
+		navigatorHolder.removeNavigator()
 	}
 	//endregion
 
@@ -59,6 +63,7 @@ class MainActivity: MvpAppCompatActivity(), Leader {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		MyApp.instance.appComponent.inject(this)
 		themeSettings()
 		setContentView(R.layout.activity_main)
 		if (savedInstanceState == null) {

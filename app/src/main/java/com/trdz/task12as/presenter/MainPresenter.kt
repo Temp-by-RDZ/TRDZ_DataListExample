@@ -10,19 +10,18 @@ import com.trdz.task12as.view.segment_users.MainView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
+import javax.inject.Inject
 
 class MainPresenter(): MvpPresenter<MainView>() {
 
-
-	private val repository: RepositoryExecutor = RepositoryExecutor()
-	private val router: Router = MyApp.instance.router
-
+	@Inject lateinit var repository: RepositoryExecutor
+	@Inject	lateinit var router: Router
 
 	override fun onFirstViewAttach() {
 		super.onFirstViewAttach()
 		Log.d("@@@", "Prs - Start users loading")
 		with(viewState) {
-			repository.setInternalSource(IN_STORAGE)
+			repository.setSource(IN_STORAGE)
 			loadingState(true)
 			repository.getInitUsers()
 				.subscribeOn(Schedulers.io())
@@ -44,7 +43,7 @@ class MainPresenter(): MvpPresenter<MainView>() {
 	}
 	private fun startLoad() {
 		with(viewState) {
-			repository.setInternalSource(IN_SERVER)
+			repository.setSource(IN_SERVER)
 			repository.getInitUsers()
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())

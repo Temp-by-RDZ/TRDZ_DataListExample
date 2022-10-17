@@ -1,6 +1,7 @@
 package com.trdz.task12as
 
 import android.app.Application
+import android.util.Log
 import androidx.room.Room
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
@@ -21,14 +22,14 @@ class MyApp: Application() {
 		private var db: DataBase? = null
 		lateinit var instance: MyApp
 
-		private var retrofitGitUsers: ServerRetrofitApi? = null
-
 		fun getHistoryDao(): UserDao {
 			if (db == null) {
 				db = Room.databaseBuilder(instance, DataBase::class.java, "test").build()
 			}
 			return db!!.userDao()
 		}
+
+		private var retrofitGitUsers: ServerRetrofitApi? = null
 
 		private fun createRetrofit() {
 			retrofitGitUsers = Retrofit.Builder().apply {
@@ -44,23 +45,14 @@ class MyApp: Application() {
 
 	}
 
-	private val cicerone: Cicerone<Router> by lazy { Cicerone.create() }
 	lateinit var appComponent: Component
-
-
-	val navigationHandler = cicerone.getNavigatorHolder()
-	val router = cicerone.router
 
 	override fun onCreate() {
 		super.onCreate()
 		instance = this
-		RxJavaPlugins.setErrorHandler {
-			//None
-		}
+		RxJavaPlugins.setErrorHandler {/*None*/}
 		appComponent = DaggerComponent.builder()
-			//.appModule(AppModule(applicationContext))
 			.build()
-
 	}
 
 }

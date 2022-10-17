@@ -21,7 +21,7 @@ class RepositoryExecutor {
 		currentData = data
 	}
 
-	fun setInternalSource(index: Int) {
+	fun setSource(index: Int) {
 		when (index) {
 			IN_BASIS -> dataSource = DataSourceBasis()
 			IN_STORAGE ->  dataSource = InternalStorage()

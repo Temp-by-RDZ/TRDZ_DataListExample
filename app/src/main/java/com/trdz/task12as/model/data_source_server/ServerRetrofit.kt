@@ -8,6 +8,7 @@ import com.trdz.task12as.model.data_source_server.data_users.dto.GitUsersDtoItem
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Response
 import java.lang.Exception
+import javax.inject.Inject
 
 class ServerRetrofit: ADataSource {
 
