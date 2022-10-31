@@ -35,7 +35,7 @@ class UserPresenter(
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribe(
 					{
-						Log.d("@@@", "Prs - Internal load complete")
+						Log.d("@@@", "Prs - Internal load complete "+it.dataRep)
 						id = it.dataUserInfo!!.id
 						refresh(it.dataRep!!)
 						loadingState(false)

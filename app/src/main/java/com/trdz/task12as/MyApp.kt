@@ -7,8 +7,7 @@ import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import com.google.gson.GsonBuilder
 import com.trdz.task12as.base_utility.DOMAIN
-import com.trdz.task12as.base_utility.di.Component
-import com.trdz.task12as.base_utility.di.DaggerComponent
+import com.trdz.task12as.base_utility.di.*
 import com.trdz.task12as.model.data_source_room.database.DataBase
 import com.trdz.task12as.model.data_source_room.database.UserDao
 import com.trdz.task12as.model.data_source_server.ServerRetrofitApi
@@ -19,30 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MyApp: Application() {
 
 	companion object {
-		private var db: DataBase? = null
-		lateinit var instance: MyApp
-
-		fun getHistoryDao(): UserDao {
-			if (db == null) {
-				db = Room.databaseBuilder(instance, DataBase::class.java, "test").build()
-			}
-			return db!!.userDao()
-		}
-
-		private var retrofitGitUsers: ServerRetrofitApi? = null
-
-		private fun createRetrofit() {
-			retrofitGitUsers = Retrofit.Builder().apply {
-				baseUrl(DOMAIN)
-				addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
-			}.build().create(ServerRetrofitApi::class.java)
-		}
-
-		fun getRetrofit(): ServerRetrofitApi {
-			if (retrofitGitUsers == null) createRetrofit()
-			return retrofitGitUsers!!
-		}
-
+		lateinit var  instance:MyApp
+		lateinit var  di:DI
 	}
 
 	lateinit var appComponent: Component
@@ -50,9 +27,11 @@ class MyApp: Application() {
 	override fun onCreate() {
 		super.onCreate()
 		instance = this
+		di = DIImpl().apply {
+			DIModule(this, instance)
+		}
 		RxJavaPlugins.setErrorHandler {/*None*/}
-		appComponent = DaggerComponent.builder()
-			.build()
+		appComponent = DaggerComponent.builder().build()
 	}
 
 }

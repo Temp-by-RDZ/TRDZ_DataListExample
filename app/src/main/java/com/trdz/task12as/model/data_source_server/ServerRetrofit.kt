@@ -13,7 +13,7 @@ import javax.inject.Inject
 class ServerRetrofit: ADataSource {
 
 	override fun loadUsers(): Single<ServersResultUser> = Single.create{
-		val retrofit = MyApp.getRetrofit()
+		val retrofit = MyApp.di.get(ServerRetrofitApi::class)
 		try {
 			val response = retrofit.getResponse().execute()
 			it.onSuccess(responseFormation(response))
@@ -35,7 +35,7 @@ class ServerRetrofit: ADataSource {
 	}
 
 	override fun loadDetails(name: String): Single<ServersResultRepository> = Single.create{
-		val retrofit = MyApp.getRetrofit()
+		val retrofit = MyApp.di.get(ServerRetrofitApi::class)
 		try {
 			val response = retrofit.getResponseSolo(name).execute()
 			it.onSuccess(responseFormationDetails(response))
@@ -53,7 +53,7 @@ class ServerRetrofit: ADataSource {
 	}
 
 	override fun loadRepository(name: String): Single<ServersResultRepository> = Single.create{
-		val retrofit = MyApp.getRetrofit()
+		val retrofit = MyApp.di.get(ServerRetrofitApi::class)
 		try {
 			val response = retrofit.getResponseSoloRepo(name).execute()
 			it.onSuccess(responseFormation(response))

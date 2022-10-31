@@ -14,7 +14,7 @@ import kotlin.concurrent.thread
 class InternalStorage: ADataSource, InternalData {
 
 	private fun getData(): UserDao {
-		return MyApp.getHistoryDao()
+		return MyApp.di.get(UserDao::class)
 	}
 
 	override fun saveUsers(users: List<DataUser>): Completable = Completable.create {
